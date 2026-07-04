@@ -100,13 +100,12 @@ textarea {
 }
 
 .brand-logo {
-  width: clamp(150px, 16vw, 210px);
+  width: clamp(168px, 17vw, 230px);
   height: auto;
-  aspect-ratio: 780 / 245;
+  aspect-ratio: 707 / 192;
   display: block;
   object-fit: contain;
   object-position: left center;
-  border-radius: 6px;
 }
 
 .brand-text {
@@ -720,7 +719,7 @@ textarea {
   }
 
   .brand-logo {
-    width: 152px;
+    width: 164px;
   }
 
   .btn-small {
