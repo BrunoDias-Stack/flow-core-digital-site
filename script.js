@@ -44,14 +44,30 @@ function setupContactPlaceholders() {
 }
 
 function formatPhone(value) {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  const hasNineDigits = digits.length > 10;
-  const firstPart = digits.slice(0, 2);
-  const secondPart = digits.slice(2, hasNineDigits ? 7 : 6);
-  const thirdPart = digits.slice(hasNineDigits ? 7 : 6);
+  const startsWithPlusOne = value.trim().startsWith("+1");
+  const digits = value.replace(/\D/g, "").slice(0, 13);
 
-  if (digits.length <= 2) return firstPart;
-  if (digits.length <= (hasNineDigits ? 7 : 6)) return `(${firstPart}) ${secondPart}`;
+  if (!digits) return "";
+
+  if (startsWithPlusOne || digits.startsWith("1")) {
+    const localNumber = digits.startsWith("1") ? digits.slice(1, 11) : digits.slice(0, 10);
+    const area = localNumber.slice(0, 3);
+    const prefix = localNumber.slice(3, 6);
+    const line = localNumber.slice(6, 10);
+
+    if (localNumber.length <= 3) return `+1 ${area}`;
+    if (localNumber.length <= 6) return `+1 (${area}) ${prefix}`;
+    return `+1 (${area}) ${prefix}-${line}`;
+  }
+
+  const localDigits = digits.slice(0, 11);
+  const hasNineDigits = localDigits.length > 10;
+  const firstPart = localDigits.slice(0, 2);
+  const secondPart = localDigits.slice(2, hasNineDigits ? 7 : 6);
+  const thirdPart = localDigits.slice(hasNineDigits ? 7 : 6);
+
+  if (localDigits.length <= 2) return firstPart;
+  if (localDigits.length <= (hasNineDigits ? 7 : 6)) return `(${firstPart}) ${secondPart}`;
   return `(${firstPart}) ${secondPart}-${thirdPart}`;
 }
 
